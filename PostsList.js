@@ -34,8 +34,9 @@ export default class PostsList extends Component {
 
 	prettifyText(text) {
 		text = text.replace(/&nbsp;/g, " ");
-		text = text.replace(/&egrave;/g, "è");
 		text = text.replace(/&agrave;/g, "à");
+		text = text.replace(/&egrave;/g, "è");
+		text = text.replace(/&igrave;/g, "ì");
 		text = text.replace(/&ugrave;/g, "ù");
 		text = text.replace(/&ograve;/g, "ò");
 		return text;
