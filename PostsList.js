@@ -48,7 +48,7 @@ export default class PostsList extends Component {
 			<ListView
 				dataSource={rows}
 				enableEmptySections={true}
-				renderRow={(data) => <PostEntry {...data} onPress={console.log(data.id)}/>}
+				renderRow={(data) => <PostEntry {...data} />}
 			/>
 		)
 	}

@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 const styles = StyleSheet.create({
 	container: {
@@ -30,22 +30,31 @@ const styles = StyleSheet.create({
 	},
 });
 
-const PostEntry = (props) => (
-	<View style={styles.container}
-		key={`${props.id}`}>
-		<Image source={{ uri: 'http://www.langolonerd.it/imgs/' + props.img}} style={styles.image} />
-		<View style={styles.text}>
-			<Text style={styles.title}>
-				{`${props.title}`}
-			</Text>
-			<Text style={styles.descr}>
-				{`${props.content}`}
-			</Text>
-			<Text style={styles.meta}>
-				{'Pubblicato da ' + props.user + ' il ' + props.data_in}
-			</Text>
-		</View>
-	</View>
-);
+export default class PostEntry extends Component {
+	click(id) {
+		console.log(id);
+	}
 
-export default PostEntry;
+	render() {
+		return (
+			<TouchableOpacity
+				onPress={ _ => this.click(this.props.id) } >
+				<View style={styles.container}
+					key={this.props.id} >
+					<Image source={{ uri: 'http://www.langolonerd.it/imgs/' + this.props.img}} style={styles.image} />
+					<View style={styles.text}>
+						<Text style={styles.title}>
+							{this.props.title}
+						</Text>
+						<Text style={styles.descr}>
+							{this.props.content}
+						</Text>
+						<Text style={styles.meta}>
+							{'Pubblicato da ' + this.props.user + ' il ' + this.props.data_in}
+						</Text>
+					</View>
+				</View>
+			</TouchableOpacity>
+		)
+	}
+};
