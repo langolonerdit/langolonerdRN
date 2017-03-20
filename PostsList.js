@@ -42,13 +42,13 @@ export default class PostsList extends Component {
 	}
 
 	render() {
-		const rows = this.dataSource.cloneWithRows(this.state.jsonData.obj || [])
+		const rows = this.dataSource.cloneWithRows(this.state.jsonData || [])
 
 		return (
 			<ListView
 				dataSource={rows}
-				renderRow={(data) => <PostEntry {...data} />}
 				enableEmptySections={true}
+				renderRow={(data) => <PostEntry {...data} onPress={console.log(data.id)}/>}
 			/>
 		)
 	}

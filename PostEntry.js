@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
 });
 
 const PostEntry = (props) => (
-	<View style={styles.container}>
+	<View style={styles.container}
+		key={`${props.id}`}>
 		<Image source={{ uri: 'http://www.langolonerd.it/imgs/' + props.img}} style={styles.image} />
 		<View style={styles.text}>
 			<Text style={styles.title}>
