@@ -18,27 +18,26 @@ export default class PostsList extends Component {
 	loadJSONData() {
 		fetch('http://www.langolonerd.it/api/get_all_posts.php', {method: 'GET'})
 		.then((response) => {
-			//response = this.prettifyText(response)
-			console.log(response);
 			return response.json()
 		})
 		.then((responseJson) => {
-			console.log(responseJson);
-			//console.log(this.prettifyText("Pretty &egrave; !!!"));
+			r = JSON.stringify(responseJson);
+			r = this.prettifyText(r);
+			responseJson = JSON.parse(r);
 			this.setState({isLoading: false, jsonData: responseJson});
 			return responseJson;
 		})
 		.catch((error) => {
-			console.log(error);
+			console.log("ERROR: " + error);
 		});
 	}
 
 	prettifyText(text) {
-		text = text.replace(/&nbsp;/g, ' ');
-		text = text.replace(/&egrave;/g, 'è');
-		text = text.replace(/&agrave;/g, 'à');
-		text = text.replace(/&ugrave;/g, 'ù');
-		text = text.replace(/&ograve;/g, 'ò');
+		text = text.replace(/&nbsp;/g, " ");
+		text = text.replace(/&egrave;/g, "è");
+		text = text.replace(/&agrave;/g, "à");
+		text = text.replace(/&ugrave;/g, "ù");
+		text = text.replace(/&ograve;/g, "ò");
 		return text;
 	}
 
