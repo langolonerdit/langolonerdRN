@@ -5,7 +5,12 @@ import PostEntry from './PostEntry';
 export default class PostsList extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {isLoading: true, jsonData: ''}
+		this.state = {
+			isLoading: true, 
+			jsonData: '',
+			cat: '',
+			tag: '',
+			search: ''}
 		this.dataSource = new ListView.DataSource({
 			rowHasChanged: (r1, r2) => r1 !== r2
 		})
@@ -16,7 +21,8 @@ export default class PostsList extends Component {
 	}
 
 	loadJSONData() {
-		fetch('http://www.langolonerd.it/api/get_all_posts.php', {method: 'GET'})
+		fetch('http://www.langolonerd.it/api/get_all_posts.php?cat=' + this.state.cat + '&tag=' + this.state.tag + '&search=' + this.state.search, 
+			{method: 'GET'})
 		.then((response) => {
 			return response.json()
 		})

@@ -6,12 +6,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 		padding: 12,
 		flexDirection: 'row',
-		height: 150,
+		height: 160,
 	},
 	text: {
 		marginTop: -5,
 		marginLeft: 12,
-		marginRight: 55,
+		marginRight: 65,
 	},
 	title: {
 		fontSize: 18,
@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 	},
 	image: {
-		height: 50,
-		width: 50,
+		height: 70,
+		width: 70,
 		borderRadius: 5,
 	},
 });
@@ -50,7 +50,7 @@ export default class PostEntry extends Component {
 							{this.props.content}
 						</Text>
 						<Text style={styles.meta}>
-							{'Pubblicato da ' + this.props.user + ' il ' + this.props.data_in}
+							{'\nPubblicato da ' + this.props.user + ' il ' + this.props.data_in}
 						</Text>
 					</View>
 				</View>
