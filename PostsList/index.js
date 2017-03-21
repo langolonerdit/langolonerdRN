@@ -3,14 +3,15 @@ import { ListView, View, Text } from 'react-native';
 import PostEntry from './PostEntry';
 
 export default class PostsList extends Component {
+	static defaultProps = {
+		cat: '',
+		tag: '',
+		search: '',
+	}
+
 	constructor(props) {
 		super(props)
-		this.state = {
-			isLoading: true, 
-			jsonData: '',
-			cat: '',
-			tag: '',
-			search: ''}
+		this.state = {isLoading: true, jsonData: ''}
 		this.dataSource = new ListView.DataSource({
 			rowHasChanged: (r1, r2) => r1 !== r2
 		})
@@ -21,21 +22,23 @@ export default class PostsList extends Component {
 	}
 
 	loadJSONData() {
-		fetch('http://www.langolonerd.it/api/get_all_posts.php?cat=' + this.state.cat + '&tag=' + this.state.tag + '&search=' + this.state.search, 
-			{method: 'GET'})
-		.then((response) => {
-			return response.json()
-		})
-		.then((responseJson) => {
-			r = JSON.stringify(responseJson);
-			r = this.prettifyText(r);
-			responseJson = JSON.parse(r);
-			this.setState({isLoading: false, jsonData: responseJson});
-			return responseJson;
-		})
-		.catch((error) => {
-			console.log("ERROR: " + error);
-		});
+		const {cat, tag, search} = this.props;
+		fetch(`http://www.langolonerd.it/api/get_all_posts.php`
+			 + `?cat='${cat}'&tag='${tag}'&search='${search}'`
+			, {method: 'GET'})
+			.then((response) => {
+				return response.json()
+			})
+			.then((responseJson) => {
+				r = JSON.stringify(responseJson);
+				r = this.prettifyText(r);
+				responseJson = JSON.parse(r);
+				this.setState({isLoading: false, jsonData: responseJson});
+				return responseJson;
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
 	}
 
 	prettifyText(text) {
