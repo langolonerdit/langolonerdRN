@@ -24,7 +24,7 @@ export default class PostsList extends Component {
 	loadJSONData() {
 		const {cat, tag, search} = this.props;
 		fetch(`http://www.langolonerd.it/api/get_all_posts.php`
-			 + `?cat='${cat}'&tag='${tag}'&search='${search}'`
+			 + `?cat=${cat}&tag=${tag}&search=${search}`
 			, {method: 'GET'})
 			.then((response) => {
 				return response.json()
