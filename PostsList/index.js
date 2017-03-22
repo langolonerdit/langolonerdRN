@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListView, View, Text } from 'react-native';
+import { ListView, View, Text, Image } from 'react-native';
 import PostEntry from './PostEntry';
 
 export default class PostsList extends Component {
@@ -7,6 +7,13 @@ export default class PostsList extends Component {
 		cat: '',
 		tag: '',
 		search: '',
+	}
+
+	static navigationOptions = {
+		header: (navigation, defaultHeader) => ({
+			...defaultHeader,
+			title: <Image source={require('../app_logo.png')} style={{width: 200, alignSelf:'center' }} resizeMode="contain" />,
+		})
 	}
 
 	constructor(props) {
