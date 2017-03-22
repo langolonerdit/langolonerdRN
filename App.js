@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import { StatusBar, View } from 'react-native';
-import Toolbar from './Toolbar';
+import Router from './router';
 
 export default class App extends Component {
-	componentWillMount() {
+	componentDidMount() {
 		StatusBar.setHidden(true);
 	}
-
 	render() {
 		return (
-			<View>
-				<Toolbar />
-			</View>
+			<Router />
 		);
 	}
 }
