@@ -6,7 +6,9 @@ export default class PostEntry extends Component {
 	click() {
 		/* when you bind a function to this you can access this properties, like props
 		TODO: change scene on tap */
-		console.log(this.props.id);
+		console.log(this.props.id)
+		const { id, title, content_full, img } = this.props
+		this.props.navigation.navigate('Post', { id, title, content_full, img })
 	}
 
 	render() {
@@ -16,7 +18,7 @@ export default class PostEntry extends Component {
 		*/
 		return (
 			<TouchableOpacity
-				onPress={ _ => this.click.bind(this) } >
+				onPress={this.click.bind(this)} >
 				<View style={styles.container}
 					key={this.props.id} >
 					<Image source={{ uri: `http://www.langolonerd.it/imgs/${this.props.img}`}} style={styles.image} />
