@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { ScrollView, Text, Image } from 'react-native';
+import HTML from 'react-native-fence-html';
 import styles from './SinglePost.style';
 
 export default class SinglePost extends Component {
@@ -22,13 +23,11 @@ export default class SinglePost extends Component {
 
   render() {
     const { id, content_full, img, title } = this.props.navigation.state.params
-    return (
-      <View>
-        <Text>
-          <Image source={{ uri: `http://www.langolonerd.it/imgs/${img}`}} />
-          { content_full }
-        </Text>
-      </View> 
+    return (  
+      <ScrollView>
+        <Image source={{ uri: `http://www.langolonerd.it/imgs/${img}`}} />
+        <HTML html={ content_full } />
+      </ScrollView> 
     )
   }
 };
