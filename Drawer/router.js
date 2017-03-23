@@ -1,0 +1,48 @@
+import React, { Component } from 'react';
+import { DrawerNavigator } from 'react-navigation';
+import HomeRouter from '../PostsList/router';
+import DrawerWrapper from './';
+
+const drawerConfig = {
+  contentComponent: DrawerWrapper,
+};
+
+const defaultRoutes = {
+  Home: { screen: HomeRouter },
+}
+
+class AsyncDrawer extends Component {
+  constructor(props) {
+    super(props);
+    this.fetchCategories = this.fetchCategories.bind(this);
+    this.state = { DrawerRouter: DrawerNavigator(defaultRoutes, drawerConfig) }
+  }
+  fetchCategories() {
+    fetch('http://www.langolonerd.it/api/get_categories.php', {method: 'GET'})
+  		.then(res => res.json())
+      .then(categories => {
+        const routesConfig = categories.reduce(
+          (prev, cat) => {
+            prev[cat.nome] = { screen: HomeRouter }
+            return prev;
+          }, { Home: { screen: HomeRouter } });
+
+        this.setState({DrawerRouter: DrawerNavigator(routesConfig, drawerConfig)})
+      })
+  		.catch((error) => {
+  			console.log("ERROR: " + error);
+      });
+  }
+  componentDidMount() {
+    this.fetchCategories();
+  }
+
+  render() {
+    const { DrawerRouter } = this.state;
+    return (
+      <DrawerRouter />
+    )
+  }
+}
+
+export default AsyncDrawer;

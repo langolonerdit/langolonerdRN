@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StatusBar, View } from 'react-native';
-import Router from './router';
+import Router from './Drawer/router';
 
 export default class App extends Component {
 	componentDidMount() {
