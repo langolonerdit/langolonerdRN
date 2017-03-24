@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableNativeFeedback } from 'react-native';
 import styles from './PostEntry.style';
 
 export default class PostEntry extends Component {
 	click() {
 		/* when you bind a function to this you can access this properties, like props
 		TODO: change scene on tap */
-		console.log(this.props.id)
-		const { id, title, content_full, img } = this.props
-		this.props.navigation.navigate('Post', { id, title, content_full, img })
+		console.log(this.props.content_full)
+		const { id, title, content_full, img, keywords } = this.props
+		this.props.navigation.navigate('Post', { id, title, content_full, img, keywords })
 	}
 
 	render() {
@@ -17,8 +17,10 @@ export default class PostEntry extends Component {
 			greet('aro') prints 'hi aro'
 		*/
 		return (
-			<TouchableOpacity
-				onPress={this.click.bind(this)} >
+			<TouchableNativeFeedback
+				onPress={this.click.bind(this)}
+				background={TouchableNativeFeedback.Ripple('#d4d2d2')} 
+				delayPressIn={0} >
 				<View style={styles.container}
 					key={this.props.id} >
 					<Image source={{ uri: `http://www.langolonerd.it/imgs/${this.props.img}`}} style={styles.image} />
@@ -34,7 +36,7 @@ export default class PostEntry extends Component {
 						</Text>
 					</View>
 				</View>
-			</TouchableOpacity>
+			</TouchableNativeFeedback>
 		)
 	}
 };

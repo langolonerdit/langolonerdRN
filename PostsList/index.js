@@ -55,6 +55,14 @@ export default class PostsList extends Component {
 		text = text.replace(/&igrave;/g, "ì");
 		text = text.replace(/&ugrave;/g, "ù");
 		text = text.replace(/&ograve;/g, "ò");
+
+		text = text.replace(/<p><iframe/g, "<iframe");
+		text = text.replace(/<\/iframe><\/p>/g, "</iframe>");
+
+		text = text.replace(/<p><script/g, "<script");
+		text = text.replace(/<\/script><\/p>/g, "</script>");
+
+		text = text.replace(/<p><img([\w\W]+?)\/><\/p>/g, "<img" + "$1" + "/>");
 		return text;
 	}
 
