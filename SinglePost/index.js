@@ -25,8 +25,18 @@ export default class SinglePost extends Component {
     console.log(this.props.navigation.state.params.id)
   }
 
+  makeTags() {
+    // kw = this.prop.navigation.state.params.keywords;
+    // keywords = kw.split(',');
+    // keywords.forEach(function(tag) {
+    //   // !
+    // });
+    return 'foo'
+  }
+
   render() {
     const { id, content_full, img, title } = this.props.navigation.state.params
+    tags = this.makeTags()
     const htmlstyle = {
       i: { 
         fontStyle: 'italic'
@@ -88,7 +98,9 @@ export default class SinglePost extends Component {
           renderers={renderers}
           style={{flex: 1}} /> 
         <View style={styles.marginbtm} />
+        <View style={styles.marginbtm} />
       </ScrollView> 
     )
   }
+  // to put in return once finished: <Text>{ tags }</Text>
 };
