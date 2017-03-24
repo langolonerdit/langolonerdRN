@@ -1,4 +1,6 @@
 {
+  "name": "langolonerd_react_native",
+  "displayName": "langolonerd_react_native",
   "expo": {
     "sdkVersion": "14.0.0"
   }
