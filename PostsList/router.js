@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, Text } from 'react-native';
+import { Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import PostsList from './';
 import SinglePost from '../SinglePost/';
@@ -17,6 +17,10 @@ const Router = StackNavigator({
       left: (
         <Ionicons name="md-menu" style={{marginLeft: 10}} size={40} color="#fff" onPress={() => navigate('DrawerOpen')}/>
       ),
+      titleStyle: {
+        color: '#ffffff',
+      },
+      tintColor: '#ffffff',
     })
   }
 });

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { DrawerNavigator } from 'react-navigation';
 import HomeRouter from '../PostsList/router';
+import SinglePost from '../SinglePost/';
 import DrawerWrapper from './';
 
 const drawerConfig = {
@@ -9,6 +10,7 @@ const drawerConfig = {
 
 const defaultRoutes = {
   Home: { screen: HomeRouter },
+  Post: { screen: SinglePost },
 }
 
 class AsyncDrawer extends Component {

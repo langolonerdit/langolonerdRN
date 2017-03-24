@@ -25,7 +25,7 @@ export default class PostsList extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({ jsonData: this.loadJSONData() })
+		this.loadJSONData()
 	}
 
 	loadJSONData() {
