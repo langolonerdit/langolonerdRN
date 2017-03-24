@@ -6,7 +6,7 @@ export default class PostEntry extends Component {
 	click() {
 		/* when you bind a function to this you can access this properties, like props
 		TODO: change scene on tap */
-		console.log(this.props.id)
+		console.log(this.props.content_full)
 		const { id, title, content_full, img } = this.props
 		this.props.navigation.navigate('Post', { id, title, content_full, img })
 	}

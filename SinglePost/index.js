@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { View, WebView, ScrollView, Text, Image } from 'react-native';
+import { View, TextView, WebView, ScrollView, Text, Image, Dimensions } from 'react-native';
 import HTML from 'react-native-fence-html';
 import RemoteComponent from './RemoteComponent';
 import styles from './SinglePost.style';
+
+var w = Dimensions.get('window').width
+var h = Dimensions.get('window').height
 
 export default class SinglePost extends Component {
   static defaultProps = {
@@ -28,10 +31,6 @@ export default class SinglePost extends Component {
       i: { 
         fontStyle: 'italic'
       },
-      img: { 
-        resizeMode: 'cover',
-        justifyContent: 'center',
-      },
       code: {
         padding: 4,
         color: '#c7254e',
@@ -41,36 +40,43 @@ export default class SinglePost extends Component {
       a: {
         color: '#89229b',
         textDecorationLine: 'none',
+      },
+      p: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
       }
     }
     const renderers = {
       img: (htmlAttribs, children, passProps) => {
         // fence-html-react-native seems to have inverted width and height
-        h = parseInt(htmlAttribs.width)
-        w = parseInt(htmlAttribs.height)
+        realw = parseInt(htmlAttribs.width)
+        realh = parseInt(htmlAttribs.height)
+        ratio = realw/w
+        newh = w*realh/realw
         return (
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <Image
-              source={{uri: htmlAttribs.src, width: w, height: h}}
-              style={passProps.htmlStyles.img}
+              source={{uri: htmlAttribs.src, width: w, height: newh}}
+              style={styles.images}
               {...passProps} />
+          </View>
         )
       },
-      // script: (htmlAttribs, children, passProps) => {
-      //   return (
-      //     <View>
-      //       <RemoteComponent
-      //         url={htmlAttribs.src} />
-      //     </View>
-      //   )
-      // },
-      // iframe: (htmlAttribs, children, passProps) => {
-      //   return (
-      //     <View>
-      //       <RemoteComponent
-      //         url={htmlAttribs.src} />
-      //     </View>
-      //   )
-      // }
+      script: (htmlAttribs, children, passProps) => {
+        return (
+          <RemoteComponent 
+              style={{flex: 1}}
+              url={htmlAttribs.src} />
+        )
+      },
+      iframe: (htmlAttribs, children, passProps) => {
+        return (
+          <RemoteComponent 
+            style={{flex: 1}}
+            url={htmlAttribs.src} />
+        )
+      }
     }
     return (  
       <ScrollView style={styles.scrollview}>
@@ -79,7 +85,9 @@ export default class SinglePost extends Component {
           html={ content_full }
           htmlStyles={htmlstyle}
           onLinkPress={(evt, href) => console.log(href)}
-          renderers={renderers} /> 
+          renderers={renderers}
+          style={{flex: 1}} /> 
+        <View style={styles.marginbtm} />
       </ScrollView> 
     )
   }

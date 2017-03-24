@@ -10,7 +10,11 @@ const Router = StackNavigator({
     header: {
       style: {
         backgroundColor: '#009587',
-      }
+      },
+      titleStyle: {
+      	color: '#ffffff',
+      },
+      tintColor: '#ffffff',
     }
   }
 });
