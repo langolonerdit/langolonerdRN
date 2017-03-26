@@ -7,8 +7,8 @@ import DrawerEntry from './entry';
 class DrawerWrapper extends Component {
   constructor(props) {
     super(props);
-
   }
+  
   render() {
     return (
       <View>

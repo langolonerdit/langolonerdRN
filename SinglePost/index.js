@@ -91,6 +91,7 @@ export default class SinglePost extends Component {
         )
       }
     }
+
     return (  
       <ScrollView style={styles.scrollview}>
         <Image source={{ uri: `http://www.langolonerd.it/imgs/${img}`}} style={{resizeMode: 'cover'}} />
