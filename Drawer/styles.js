@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+	drawer_container: {
+		marginTop: 24,
+	},
 	drawer_header: {
 		backgroundColor: '#009587',
 		height: 150
