@@ -13,6 +13,7 @@ const Router = StackNavigator({
     header: ({ state, setParams, navigate, dispatch })  => ({
       style: {
         backgroundColor: '#009587',
+        marginTop: 24,
       },
       left: (
         <Ionicons name="md-menu" style={{marginLeft: 10}} size={40} color="#fff" onPress={() => navigate('DrawerOpen')}/>
