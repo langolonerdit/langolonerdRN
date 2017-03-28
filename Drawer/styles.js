@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
 	},
 	drawer_header: {
 		backgroundColor: '#009587',
-		height: 150
+		height: 150,
+		elevation: 5
 	},
 	drawer_logo: {
 		width: 80,

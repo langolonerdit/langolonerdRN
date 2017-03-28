@@ -4,22 +4,15 @@ import styles from './PostEntry.style';
 
 export default class PostEntry extends Component {
 	click() {
-		/* when you bind a function to this you can access this properties, like props
-		TODO: change scene on tap */
-		console.log(this.props.content_full)
 		const { id, title, content_full, img, keywords } = this.props
 		this.props.navigation.navigate('Post', { id, title, content_full, img, keywords })
 	}
 
 	render() {
-		/* there is a new way of concat strings with variables:
-			const greet = name => `hi ${name}`
-			greet('aro') prints 'hi aro'
-		*/
 		return (
 			<TouchableNativeFeedback
 				onPress={this.click.bind(this)}
-				background={TouchableNativeFeedback.Ripple('#d4d2d2')} 
+				background={TouchableNativeFeedback.Ripple('#d4d2d2')}
 				delayPressIn={0} >
 				<View style={styles.container}
 					key={this.props.id} >

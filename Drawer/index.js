@@ -22,7 +22,7 @@ class DrawerWrapper extends Component {
             <Ionicons name='md-settings' size={20} color="#fff"/>
       		</View>
       	</View>
-        <View>
+        <View style={{marginTop: 20}}>
           {
             this.props.navigation.state.routes.map(route => <DrawerEntry key={route.key} name={route.routeName} />)
           }

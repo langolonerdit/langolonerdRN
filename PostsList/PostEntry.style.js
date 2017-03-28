@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
 	meta: {
 		color: '#5b5b5b',
 		fontSize: 12,
+		marginTop: 5,
 	},
 	image: {
 		height: 70,

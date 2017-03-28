@@ -23,7 +23,7 @@ export default class RemoteComponent extends Component {
     // }
     return (
       <View>
-        <Text style={{fontStyle: 'italic'}}>[Componente esterno (video/code-snippet) non caricato, può essere visualizzato dal sito]</Text>
+        <Text style={{fontStyle: 'italic', fontFamily: 'monospace'}}>[Componente esterno (video/code-snippet) non caricato, può essere visualizzato dal sito]</Text>
       </View>
     );
   }

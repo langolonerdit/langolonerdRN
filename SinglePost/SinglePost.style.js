@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
   images: {
   	flex: 1,
-  	resizeMode: 'contain',
+    borderRadius: 5,
   }
 });
 
