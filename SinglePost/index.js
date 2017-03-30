@@ -119,7 +119,7 @@ export default class SinglePost extends Component {
         <HTML
           html={ `${content_full}<br><hr><p>${tags}</p>` }
           htmlStyles={htmlstyle}
-          onLinkPress={(href) => console.log(href)}
+          onLinkPress={(evt, href) => Communications.web(href)}
           renderers={renderers}/>
         <View style={styles.marginbtm} />
         <View style={styles.marginbtm} />
