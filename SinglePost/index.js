@@ -4,7 +4,8 @@ import HTML from 'react-native-fence-html';
 import RemoteComponent from './RemoteComponent';
 import styles from './SinglePost.style';
 import { Ionicons } from '@expo/vector-icons';
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation';
+import Communications from 'react-native-communications';
 
 var w = Dimensions.get('window').width - 25
 var h = Dimensions.get('window').height
@@ -20,7 +21,13 @@ export default class SinglePost extends Component {
     header: (navigation, defaultHeader) => ({
       ...defaultHeader,
       title: navigation.state.params.title,
-      left: <Ionicons name="ios-arrow-back" style={{marginLeft: 10}} size={40} color="#fff" onPress={() => navigation.dispatch(NavigationActions.back())}/>,
+      left: <Ionicons name="md-arrow-back" style={{marginLeft: 20}} size={30} color="#fff" onPress={() => navigation.dispatch(NavigationActions.back())}/>,
+      right: (
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <Ionicons name="md-share" style={{marginRight: 20, marginTop: 13}} size={30} color="#fff" onPress={() => console.log("Share!")}/>
+          <Ionicons name="md-open" style={{marginRight: 20, marginTop: 13}} size={30} color="#fff" onPress={() => Communications.web(`http://www.langolonerd.it/post/${ navigation.state.params.id}/${ navigation.state.params.slug}/`)}/>
+        </View>
+      ),
     })
   }
 
@@ -106,16 +113,13 @@ export default class SinglePost extends Component {
     }
 
     tags = this.makeTags()
-    link_to_full = `<a href='http://www.langolonerd.it/'>Vai all'articolo completo <i class='fa fa-external-link'></i></a>`
-
-    console.log(content_full)
 
     return (
       <ScrollView style={styles.scrollview}>
         <HTML
-          html={ `${content_full}<br><br><p>${tags}</p><hr>${link_to_full}` }
+          html={ `${content_full}<br><hr><p>${tags}</p>` }
           htmlStyles={htmlstyle}
-          onLinkPress={(evt, href) => console.log(href)}
+          onLinkPress={(href) => console.log(href)}
           renderers={renderers}/>
         <View style={styles.marginbtm} />
         <View style={styles.marginbtm} />

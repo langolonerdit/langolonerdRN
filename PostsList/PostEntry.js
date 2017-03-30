@@ -4,8 +4,8 @@ import styles from './PostEntry.style';
 
 export default class PostEntry extends Component {
 	click() {
-		const { id, title, content_full, img, keywords } = this.props
-		this.props.navigation.navigate('Post', { id, title, content_full, img, keywords })
+		const { id, title, content_full, img, keywords, slug } = this.props
+		this.props.navigation.navigate('Post', { id, title, content_full, img, keywords, slug })
 	}
 
 	render() {
