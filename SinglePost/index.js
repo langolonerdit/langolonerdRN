@@ -85,7 +85,6 @@ export default class SinglePost extends Component {
         // fence-html-react-native seems to have inverted width and height
         realw = parseInt(htmlAttribs.width)
         realh = parseInt(htmlAttribs.height)
-        ratio = realw/w
         newh = w*realh/realw
         return (
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -97,17 +96,35 @@ export default class SinglePost extends Component {
         )
       },
       script: (htmlAttribs, children, passProps) => {
-        return (
-          <RemoteComponent
-              style={{flex: 1}}
-              url={htmlAttribs.src} />
-        )
+        realw = parseInt(htmlAttribs.width)
+        realh = parseInt(htmlAttribs.height)
+        newh = ((realh > 0) ? w*realh : 300)
+
+        // IDEA: create an empty webview,
+        // hence push the js in it
+        fetch(htmlAttribs.src).then((response) => {
+          return response.text();
+        }).then((js) => {
+          return (
+            <WebView
+            scalesPageToFit={true}
+            startInLoadingState={true}
+            injectedJavaScript={js}
+            style={{width: w, height: newh}}
+            source={{uri: "..."}} />
+          )
+        })
       },
       iframe: (htmlAttribs, children, passProps) => {
+        realw = parseInt(htmlAttribs.width)
+        realh = parseInt(htmlAttribs.height)
+        newh = w*realh/realw
         return (
-          <RemoteComponent
-            style={{flex: 1}}
-            url={htmlAttribs.src} />
+            <WebView
+              scalesPageToFit={true}
+              startInLoadingState={true}
+              style={{width: w, height: newh}}
+              source={{uri: htmlAttribs.src}} />
         )
       }
     }
