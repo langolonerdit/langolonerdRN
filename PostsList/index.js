@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListView, View, Text, Image } from 'react-native';
+import { ListView, View, Text, Image, RefreshControl } from 'react-native';
 import PostEntry from './PostEntry';
 
 export default class PostsList extends Component {
@@ -12,13 +12,13 @@ export default class PostsList extends Component {
 	static navigationOptions = {
 		header: (navigation, defaultHeader) => ({
 			...defaultHeader,
-			title: <Image source={require('../app_logo.png')} style={{width: 200, alignSelf:'center' }} resizeMode="contain" />,
+			title: <Image source={require('../app_logo.png')} style={{width: 200, alignSelf:'center', marginLeft: -30 }} resizeMode="contain" />,
 		})
 	}
 
 	constructor(props) {
 		super(props)
-		this.state = {isLoading: true, jsonData: ''}
+		this.state = {isLoading: true, jsonData: '', refreshing: false}
 		this.dataSource = new ListView.DataSource({
 			rowHasChanged: (r1, r2) => r1 !== r2
 		})
@@ -30,6 +30,7 @@ export default class PostsList extends Component {
 
 	loadJSONData() {
 		const {cat, tag, search} = this.props;
+		this.setState({refreshing: true});
 		fetch(`http://www.langolonerd.it/api/get_all_posts.php`
 			 + `?cat=${cat}&tag=${tag}&search=${search}`
 			, {method: 'GET'})
@@ -40,7 +41,7 @@ export default class PostsList extends Component {
 				r = JSON.stringify(responseJson);
 				r = this.prettifyText(r);
 				responseJson = JSON.parse(r);
-				this.setState({isLoading: false, jsonData: responseJson});
+				this.setState({isLoading: false, jsonData: responseJson, refreshing: false});
 				return responseJson;
 			})
 			.catch((error) => {
@@ -63,6 +64,12 @@ export default class PostsList extends Component {
 		text = text.replace(/<\/script><\/p>/g, "</script>");
 
 		text = text.replace(/<p><img([\w\W]+?)\/><\/p>/g, "<img" + "$1" + "/>");
+
+		text = text.replace(/<pre([\w\W]+?)><code>/g, "<pre>");
+		text = text.replace(/<\/code><\/pre>/g, "</pre>");
+
+		text = text.replace(/<p style="padding-left: 30px;">(.*)<\/p>/g, "<blockquote>" + "$1" + "</blockquote>");
+
 		return text;
 	}
 
@@ -74,6 +81,11 @@ export default class PostsList extends Component {
 				dataSource={rows}
 				enableEmptySections={true}
 				renderRow={(data) => <PostEntry {...data} navigation={this.props.navigation} />}
+				refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.loadJSONData.bind(this)} />
+					}
 			/>
 		)
 	}

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { View, TextView, WebView, ScrollView, Text, Image, Dimensions } from 'react-native';
-import HTML from 'react-native-fence-html';
+import { View, TextView, WebView, ScrollView, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
+import HTML from 'fence-html-rn';
 import RemoteComponent from './RemoteComponent';
 import styles from './SinglePost.style';
 import { Ionicons } from '@expo/vector-icons';
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation';
+import Communications from 'react-native-communications';
 
-var w = Dimensions.get('window').width
+var w = Dimensions.get('window').width - 25
 var h = Dimensions.get('window').height
 
 export default class SinglePost extends Component {
@@ -20,28 +21,31 @@ export default class SinglePost extends Component {
     header: (navigation, defaultHeader) => ({
       ...defaultHeader,
       title: navigation.state.params.title,
-      left: <Ionicons name="ios-arrow-back" style={{marginLeft: 10}} size={40} color="#fff" onPress={() => navigation.dispatch(NavigationActions.back())}/>,
+      left: <Ionicons name="md-arrow-back" style={{marginLeft: 20}} size={30} color="#fff" onPress={() => navigation.dispatch(NavigationActions.back())}/>,
+      right: (
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <Ionicons name="md-share" style={{marginRight: 20, marginTop: 13}} size={30} color="#fff" onPress={() => console.log("Share!")}/>
+          <Ionicons name="md-open" style={{marginRight: 20, marginTop: 13}} size={30} color="#fff" onPress={() => Communications.web(`http://www.langolonerd.it/post/${ navigation.state.params.id}/${ navigation.state.params.slug}/`)}/>
+        </View>
+      ),
     })
   }
 
-  componentDidMount() {
-    console.log(this.props.navigation.state.params.id)
-  }
-
   makeTags() {
-    // kw = this.prop.navigation.state.params.keywords;
-    // keywords = kw.split(',');
-    // keywords.forEach(function(tag) {
-    //   // !
-    // });
-    return 'foo'
+    tags = 'Tags: '
+    kw = this.props.navigation.state.params.keywords
+    keywords = kw.split(',')
+    keywords.forEach(function(tag) {
+      tags += '<a href=http://www.langolonerd.it/?tag=' + tag + ' name="' + tag + '">' + tag + '</a>, '
+    })
+    return tags.substr(0, tags.length - 2)
   }
 
   render() {
     const { id, content_full, img, title } = this.props.navigation.state.params
-    tags = this.makeTags()
+    //tags = this.makeTags()
     const htmlstyle = {
-      i: { 
+      i: {
         fontStyle: 'italic'
       },
       code: {
@@ -49,6 +53,7 @@ export default class SinglePost extends Component {
         color: '#c7254e',
         backgroundColor: '#f9f2f4',
         borderRadius: 4,
+        fontFamily: 'monospace',
       },
       a: {
         color: '#89229b',
@@ -58,6 +63,21 @@ export default class SinglePost extends Component {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+      },
+      blockquote: {
+        padding: 15,
+        backgroundColor: '#d4d2d2',
+        borderRadius: 5,
+        fontSize: 13,
+        fontFamily: 'monospace',
+      },
+      pre: {
+        fontFamily: 'monospace',
+        backgroundColor: '#d4d2d2',
+        color: '#333',
+        borderRadius: 5,
+        padding: 15,
+        fontSize: 13,
       }
     }
     const renderers = {
@@ -65,7 +85,6 @@ export default class SinglePost extends Component {
         // fence-html-react-native seems to have inverted width and height
         realw = parseInt(htmlAttribs.width)
         realh = parseInt(htmlAttribs.height)
-        ratio = realw/w
         newh = w*realh/realw
         return (
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -77,33 +96,51 @@ export default class SinglePost extends Component {
         )
       },
       script: (htmlAttribs, children, passProps) => {
-        return (
-          <RemoteComponent 
-              style={{flex: 1}}
-              url={htmlAttribs.src} />
-        )
+        realw = parseInt(htmlAttribs.width)
+        realh = parseInt(htmlAttribs.height)
+        newh = ((realh > 0) ? w*realh : 300)
+
+        // IDEA: create an empty webview,
+        // hence push the js in it
+        fetch(htmlAttribs.src).then((response) => {
+          return response.text();
+        }).then((js) => {
+          return (
+            <WebView
+            scalesPageToFit={true}
+            startInLoadingState={true}
+            injectedJavaScript={js}
+            style={{width: w, height: newh}}
+            source={{uri: "..."}} />
+          )
+        })
       },
       iframe: (htmlAttribs, children, passProps) => {
+        realw = parseInt(htmlAttribs.width)
+        realh = parseInt(htmlAttribs.height)
+        newh = w*realh/realw
         return (
-          <RemoteComponent 
-            style={{flex: 1}}
-            url={htmlAttribs.src} />
+            <WebView
+              scalesPageToFit={true}
+              startInLoadingState={true}
+              style={{width: w, height: newh}}
+              source={{uri: htmlAttribs.src}} />
         )
       }
     }
-    return (  
+
+    tags = this.makeTags()
+
+    return (
       <ScrollView style={styles.scrollview}>
-        <Image source={{ uri: `http://www.langolonerd.it/imgs/${img}`}} style={{resizeMode: 'cover'}} />
-        <HTML 
-          html={ content_full }
+        <HTML
+          html={ `${content_full}<br><hr><p>${tags}</p>` }
           htmlStyles={htmlstyle}
-          onLinkPress={(evt, href) => console.log(href)}
-          renderers={renderers}
-          style={{flex: 1}} /> 
+          onLinkPress={(evt, href) => Communications.web(href)}
+          renderers={renderers}/>
         <View style={styles.marginbtm} />
         <View style={styles.marginbtm} />
-      </ScrollView> 
+      </ScrollView>
     )
   }
-  // to put in return once finished: <Text>{ tags }</Text>
 };
