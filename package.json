@@ -21,11 +21,11 @@
   "dependencies": {
     "@expo/vector-icons": "^4.0.0",
     "expo": "14.0.2",
+    "fence-html-rn": "^1.0.0",
     "react": "~15.4.0",
     "react-addons-shallow-compare": "^15.4.2",
     "react-native": "0.41.2",
     "react-native-communications": "^2.2.1",
-    "react-native-fence-html": "^1.0.6",
     "react-navigation": "^1.0.0-beta.7"
   }
 }

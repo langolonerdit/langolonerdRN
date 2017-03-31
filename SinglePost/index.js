@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, TextView, WebView, ScrollView, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
-import HTML from 'react-native-fence-html';
+import HTML from 'fence-html-rn';
 import RemoteComponent from './RemoteComponent';
 import styles from './SinglePost.style';
 import { Ionicons } from '@expo/vector-icons';
