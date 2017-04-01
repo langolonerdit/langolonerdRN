@@ -19,24 +19,26 @@ class AsyncDrawer extends Component {
     this.fetchCategories = this.fetchCategories.bind(this);
     this.state = { DrawerRouter: DrawerNavigator(defaultRoutes, drawerConfig) }
   }
-  fetchCategories() {
-    fetch('http://www.langolonerd.it/api/get_categories.php', {method: 'GET'})
-  		.then(res => res.json())
-      .then(categories => {
-        const routesConfig = categories.reduce(
-          (prev, cat) => {
-            prev[cat.nome] = { screen: HomeRouter }
-            return prev;
-          }, { Home: { screen: HomeRouter } });
 
-        this.setState({DrawerRouter: DrawerNavigator(routesConfig, drawerConfig)})
-      })
-  		.catch((error) => {
-  			console.log("ERROR: " + error);
-      });
-  }
   componentDidMount() {
     this.fetchCategories();
+  }
+
+  fetchCategories() {
+    fetch('http://www.langolonerd.it/api/get_categories.php', {method: 'GET'})
+    .then(res => res.json())
+    .then(categories => {
+      const routesConfig = categories.reduce(
+        (prev, cat) => {
+          prev[cat.nome] = { screen: HomeRouter }
+          return prev;
+        }, { Home: { screen: HomeRouter } }
+      );
+      this.setState({DrawerRouter: DrawerNavigator(routesConfig, drawerConfig)})
+    })
+    .catch((error) => {
+      console.log("ERROR: " + error);
+    });
   }
 
   render() {
