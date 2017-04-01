@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextView, WebView, ScrollView, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { View, TextView, WebView, ScrollView, Text, Image, Dimensions, TouchableOpacity, Share } from 'react-native';
 import HTML from 'fence-html-rn';
 import RemoteComponent from './RemoteComponent';
 import styles from './SinglePost.style';
@@ -24,8 +24,13 @@ export default class SinglePost extends Component {
       left: <Ionicons name="md-arrow-back" style={{marginLeft: 20}} size={30} color="#fff" onPress={() => navigation.dispatch(NavigationActions.back())}/>,
       right: (
         <View style={{flex: 1, flexDirection: 'row'}}>
-          <Ionicons name="md-share" style={{marginRight: 20, marginTop: 13}} size={30} color="#fff" onPress={() => console.log("Share!")}/>
-          <Ionicons name="md-open" style={{marginRight: 20, marginTop: 13}} size={30} color="#fff" onPress={() => Communications.web(`http://www.langolonerd.it/post/${ navigation.state.params.id}/${ navigation.state.params.slug}/`)}/>
+          <Ionicons name="md-share" style={{marginRight: 20, marginTop: 13}} size={30} color="#fff" onPress={() =>
+            Share.share({
+              url: `http://www.langolonerd.it/post/${navigation.state.params.id}/${navigation.state.params.slug}/`,
+              message: `${navigation.state.params.title} | L'angolo nerd http://www.langolonerd.it/post/${navigation.state.params.id}/${navigation.state.params.slug}/`
+            })} />
+          <Ionicons name="md-open" style={{marginRight: 20, marginTop: 13}} size={30} color="#fff" onPress={() =>
+            Communications.web(`http://www.langolonerd.it/post/${navigation.state.params.id}/${navigation.state.params.slug}/`)}/>
         </View>
       ),
     })
