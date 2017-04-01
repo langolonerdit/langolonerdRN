@@ -11,6 +11,12 @@ const styles = StyleSheet.create({
   images: {
   	flex: 1,
     borderRadius: 5,
+  },
+  menu_option: {
+    paddingTop: 20
+  },
+  menu_option_text: {
+    fontSize: 18,
   }
 });
 

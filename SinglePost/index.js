@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, TextView, WebView, ScrollView, Text, Image, Dimensions, TouchableOpacity, Share } from 'react-native';
+import { View, TextView, WebView, ScrollView, Text, Image, Dimensions, TouchableOpacity, Share, TouchableNativeFeedback } from 'react-native';
 import HTML from 'fence-html-rn';
 import RemoteComponent from './RemoteComponent';
 import styles from './SinglePost.style';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationActions } from 'react-navigation';
 import Communications from 'react-native-communications';
+import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 
 var w = Dimensions.get('window').width - 25
 var h = Dimensions.get('window').height
@@ -23,15 +24,40 @@ export default class SinglePost extends Component {
       title: navigation.state.params.title,
       left: <Ionicons name="md-arrow-back" style={{marginLeft: 20}} size={30} color="#fff" onPress={() => navigation.dispatch(NavigationActions.back())}/>,
       right: (
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <Ionicons name="md-share" style={{marginRight: 20, marginTop: 13}} size={30} color="#fff" onPress={() =>
-            Share.share({
-              url: `http://www.langolonerd.it/post/${navigation.state.params.id}/${navigation.state.params.slug}/`,
-              message: `${navigation.state.params.title} | L'angolo nerd http://www.langolonerd.it/post/${navigation.state.params.id}/${navigation.state.params.slug}/`
-            })} />
-          <Ionicons name="md-open" style={{marginRight: 20, marginTop: 13}} size={30} color="#fff" onPress={() =>
-            Communications.web(`http://www.langolonerd.it/post/${navigation.state.params.id}/${navigation.state.params.slug}/`)}/>
-        </View>
+        <Menu>
+          <MenuTrigger>
+            <Ionicons name="md-more" style={{marginRight: 20}} size={30} color="#fff" />
+          </MenuTrigger>
+          <MenuOptions
+            optionsContainerStyle={{
+              paddingBottom: 10,
+            }}>
+            <MenuOption
+              style={styles.menu_option}
+              value={1} >
+              <TouchableNativeFeedback
+        				onPress={() =>
+                  Share.share({
+                    url: `http://www.langolonerd.it/post/${navigation.state.params.id}/${navigation.state.params.slug}/`,
+                    message: `${navigation.state.params.title} | L'angolo nerd http://www.langolonerd.it/post/${navigation.state.params.id}/${navigation.state.params.slug}/`})}
+        				background={TouchableNativeFeedback.Ripple('#d4d2d2')}
+        				delayPressIn={0} >
+                <Text style={styles.menu_option_text}><Ionicons name="md-share" size={20}/>{" Condividi "}</Text>
+              </TouchableNativeFeedback>
+            </MenuOption>
+            <MenuOption
+              style={styles.menu_option}
+              value={2} >
+              <TouchableNativeFeedback
+        				onPress={() =>
+                  Communications.web(`http://www.langolonerd.it/post/${navigation.state.params.id}/${navigation.state.params.slug}/`)}
+        				background={TouchableNativeFeedback.Ripple('#d4d2d2')}
+        				delayPressIn={0} >
+                <Text style={styles.menu_option_text}><Ionicons name="md-open" size={20}/>{" Apri nel browser "}</Text>
+              </TouchableNativeFeedback>
+            </MenuOption>
+          </MenuOptions>
+        </Menu>
       ),
     })
   }
