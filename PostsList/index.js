@@ -30,7 +30,8 @@ export default class PostsList extends Component {
 
 	loadJSONData() {
 		const {cat, tag, search} = this.props;
-		this.setState({refreshing: true});
+		if(this.refs.theList)
+			this.setState({refreshing: true});
 		fetch(`http://www.langolonerd.it/api/get_all_posts.php`
 			 + `?cat=${cat}&tag=${tag}&search=${search}`
 			, {method: 'GET'})
@@ -41,7 +42,8 @@ export default class PostsList extends Component {
 				r = JSON.stringify(responseJson);
 				r = this.prettifyText(r);
 				responseJson = JSON.parse(r);
-				this.setState({isLoading: false, jsonData: responseJson, refreshing: false});
+				if(this.refs.theList)
+					this.setState({isLoading: false, jsonData: responseJson, refreshing: false});
 				return responseJson;
 			})
 			.catch((error) => {
@@ -78,6 +80,7 @@ export default class PostsList extends Component {
 
 		return (
 			<ListView
+				ref="theList"
 				dataSource={rows}
 				enableEmptySections={true}
 				renderRow={(data) => <PostEntry {...data} navigation={this.props.navigation} />}
